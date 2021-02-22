@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import ButtonComponent from '../../components/ButtonComponent';
 import Heading1Text from '../../components/Heading1Text';
 import InputComponent from '../../components/InputComponent';
@@ -38,8 +38,15 @@ const LoginScreen = (props) => {
       />
 
       <ButtonComponent
+        title="Register"
+        buttonStyle={styles.registerButtonStyle}
+        onPress={onLoginClicked}
+        buttonTextStyle={styles.registerButtonTextStyle}
+      />
+
+      <ButtonComponent
         title="Login"
-        style={styles.buttonStyle}
+        buttonStyle={styles.buttonStyle}
         onPress={onLoginClicked}
       />
     </View>
@@ -56,6 +63,19 @@ const styles = StyleSheet.create({
   },
   inputStyle: {marginTop: 10},
   buttonStyle: {marginTop: 10},
+  registerButtonStyle: {
+    marginTop: 10,
+    backgroundColor: '#00000000',
+    alignItems: 'flex-end',
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    elevation: 0,
+    borderRadius: 0,
+  },
+  registerButtonTextStyle: {
+    color: 'blue',
+  },
 });
 
 export default LoginScreen;
