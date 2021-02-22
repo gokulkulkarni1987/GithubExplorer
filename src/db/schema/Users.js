@@ -1,9 +1,11 @@
+export const USER_SCHEMA = 'User';
+
 const UsersSchema = {
-  name: 'User',
+  name: USER_SCHEMA,
   properties: {
-    name: 'String',
-    username: 'String',
-    pwd: 'String',
+    name: 'string',
+    username: 'string',
+    password: 'string',
     bookmarkedRepos: 'GitHubRepos[]',
   },
 };

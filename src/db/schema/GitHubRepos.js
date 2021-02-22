@@ -1,9 +1,9 @@
 const GitHubReposSchema = {
   name: 'GitHubRepos',
   properties: {
-    name: 'String',
-    username: 'String',
-    pwd: 'String',
+    name: 'string',
+    username: 'string',
+    pwd: 'string',
   },
 };
 

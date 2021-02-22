@@ -1,0 +1,4 @@
+export const SHARED_PREFERENCE_KEYS = {
+  USER_ID: 'USER_ID',
+  USER_NAME: 'USER_NAME',
+};

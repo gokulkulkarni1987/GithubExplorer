@@ -12,36 +12,47 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {SafeAreaView, StyleSheet, View, StatusBar} from 'react-native';
 import {Provider} from 'react-redux';
-import Realm from 'realm';
 
 import initRedux from './src/redux/initRedux';
 import HomeScreen from './src/screens/home/HomeScreen';
-import UsersSchema from './src/db/schema/Users';
-import GitHubReposSchema from './src/db/schema/GitHubRepos';
 import LoginScreen from './src/screens/auth/LoginScreen';
 import RegisterScreen from './src/screens/auth/RegisterScreen';
+import './src/db/config';
+import {SHARED_PREFERENCE} from './src/util/SharedPreferences';
+import {SHARED_PREFERENCE_KEYS} from './src/util/AppConstants';
 const Stack = createStackNavigator();
-
 const App = () => {
-  const [realm, setRealm] = useState(null);
   const [isSignedIn, setIsSignedIn] = useState(false);
-  useEffect(() => {
-    (async () => {
-      const config = {
-        schema: [UsersSchema, GitHubReposSchema],
-        path: './explorer/realm',
-      };
-      const realmVar = await Realm.open(config);
-      setRealm(realmVar);
-    })();
-    return () => {
-      if (realm) {
-        realm.close();
+
+  const listener = () => {
+    const {register, login} = storeDetails.store.getState();
+    console.log('storeDetails.store', storeDetails.store.getState());
+    if (
+      (register &&
+        !register.registrationFail &&
+        !register.registrationInProgress &&
+        register.registrationSuccess) ||
+      (login &&
+        !login.loginFail &&
+        !login.loginInProgress &&
+        login.loginSuccess)
+    ) {
+      setIsSignedIn(true);
+    }
+  };
+
+  SHARED_PREFERENCE.accessor
+    .get(SHARED_PREFERENCE_KEYS.USER_ID)
+    .then((userId) => {
+      if (userId) {
+        setIsSignedIn(true);
+      } else {
+        setIsSignedIn(false);
       }
-    };
-  }, [realm]);
+    });
 
   const storeDetails = initRedux();
+  storeDetails.store.subscribe(listener);
   return (
     <>
       <StatusBar barStyle="dark-content" />
