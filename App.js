@@ -19,6 +19,7 @@ import HomeScreen from './src/screens/home/HomeScreen';
 import UsersSchema from './src/db/schema/Users';
 import GitHubReposSchema from './src/db/schema/GitHubRepos';
 import LoginScreen from './src/screens/auth/LoginScreen';
+import RegisterScreen from './src/screens/auth/RegisterScreen';
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -57,6 +58,7 @@ const App = () => {
             ) : (
               <Stack.Navigator headerMode={'none'}>
                 <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="Register" component={RegisterScreen} />
               </Stack.Navigator>
             )}
           </NavigationContainer>

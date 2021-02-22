@@ -5,9 +5,9 @@ import {useDispatch} from 'react-redux';
 import ButtonComponent from '../../components/ButtonComponent';
 import Heading1Text from '../../components/Heading1Text';
 import InputComponent from '../../components/InputComponent';
-import {LOGIN_ACTION} from './AuthActions';
+import {REGISTER_ACTION} from './AuthActions';
 
-const LoginScreen = (props) => {
+const RegisterScreen = (props) => {
   const [username, setUserName] = useState(null);
   const [password, setPassword] = useState(null);
   const dispatch = useDispatch();
@@ -21,9 +21,13 @@ const LoginScreen = (props) => {
   };
 
   const onLoginClicked = () => {
+    props.navigation.navigate('Login');
+  };
+
+  const onRegisterClicked = () => {
     if ((username && password) || (username !== '' && password !== '')) {
       dispatch({
-        type: LOGIN_ACTION,
+        type: REGISTER_ACTION,
         payload: {
           username,
           password,
@@ -32,13 +36,9 @@ const LoginScreen = (props) => {
     }
   };
 
-  const onRegisterClicked = () => {
-    props.navigation.navigate('Register');
-  };
-
   return (
-    <View style={styles.loginParentStyle}>
-      <Heading1Text>Login Screen</Heading1Text>
+    <View style={styles.registerParentStyle}>
+      <Heading1Text>Register Screen</Heading1Text>
       <InputComponent
         onChangeText={onUserNameChanged}
         placeholder={'Username'}
@@ -55,23 +55,23 @@ const LoginScreen = (props) => {
       />
 
       <ButtonComponent
-        title="Register"
+        title="Login"
         buttonStyle={styles.registerButtonStyle}
-        onPress={onRegisterClicked}
+        onPress={onLoginClicked}
         buttonTextStyle={styles.registerButtonTextStyle}
       />
 
       <ButtonComponent
-        title="Login"
+        title="Register"
         buttonStyle={styles.buttonStyle}
-        onPress={onLoginClicked}
+        onPress={onRegisterClicked}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  loginParentStyle: {
+  registerParentStyle: {
     flex: 1,
     alignItems: 'stretch',
     justifyContent: 'center',
@@ -95,4 +95,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;
