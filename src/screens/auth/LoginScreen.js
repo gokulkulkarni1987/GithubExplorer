@@ -36,7 +36,7 @@ const LoginScreen = (props) => {
         secureTextEntry={true}
         style={styles.inputStyle}
       />
-3
+
       <ButtonComponent
         title="Login"
         style={styles.buttonStyle}
