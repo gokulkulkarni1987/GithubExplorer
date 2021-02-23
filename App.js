@@ -23,6 +23,7 @@ import {SHARED_PREFERENCE} from './src/util/SharedPreferences';
 import {SHARED_PREFERENCE_KEYS} from './src/util/AppConstants';
 import AllRepos from './src/screens/home/AllRepos';
 import MyBookmarked from './src/screens/home/MyBookmarked';
+import RepoDetailsScreen from './src/screens/repo/RepoDetailsScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const App = () => {
@@ -78,6 +79,10 @@ const App = () => {
                 </Stack.Navigator> */}
                 <Stack.Navigator>
                   <Stack.Screen name="Home" component={getHome} />
+                  <Stack.Screen
+                    name="RepoDetails"
+                    component={RepoDetailsScreen}
+                  />
                 </Stack.Navigator>
               </>
             ) : (

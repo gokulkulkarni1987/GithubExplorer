@@ -2,11 +2,10 @@ import React from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import {useRef} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import SearchBar from 'react-native-search-bar';
 import {useDispatch, useSelector} from 'react-redux';
-import Heading1Text from '../../components/Heading1Text';
-import Heading4Text from '../../components/Heading4Text';
+import RepoRowComponent from '../../components/RepoRowComponent';
 import {SEARCH_REPO_ACTION} from './HomeActions';
 
 const AllRepos = (props) => {
@@ -39,14 +38,14 @@ const AllRepos = (props) => {
     }
   };
 
+  const onRepoClicked = (item) => {
+    props.navigation.navigate('RepoDetails', {
+      repository: item,
+    });
+  };
+
   const renderItem = ({index, item}) => {
-    return (
-      <View style={styles.rowStyle}>
-        <Heading1Text>{item.name}</Heading1Text>
-        <Text>{item.private ? 'Private' : 'Public'}</Text>
-        <Text>{item.owner.login}</Text>
-      </View>
-    );
+    return <RepoRowComponent item={item} onRepoClicked={onRepoClicked} />;
   };
 
   const keyExtractor = (item, index) => {
@@ -54,7 +53,7 @@ const AllRepos = (props) => {
   };
 
   return (
-    <View style={{flex: 1, margin: 5}}>
+    <View style={styles.parentStyle}>
       <SearchBar
         ref={searchRef}
         placeholder="Search All Repos"
@@ -68,24 +67,19 @@ const AllRepos = (props) => {
         data={allRepositoriesProp.repositories}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
-        ItemSeparatorComponent={() => <View style={{margin: 5}} />}
-        style={{marginTop: 10}}
+        ItemSeparatorComponent={() => (
+          <View style={styles.flatlistItemSeparatorStyle} />
+        )}
+        style={styles.flatlistStyle}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  rowStyle: {
-    padding: 10,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-    borderRadius: 5,
-  },
+  parentStyle: {flex: 1, margin: 5},
+  flatlistStyle: {marginTop: 10},
+  flatlistItemSeparatorStyle: {margin: 5},
 });
 
 export default AllRepos;
