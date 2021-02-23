@@ -24,6 +24,7 @@ import {SHARED_PREFERENCE_KEYS} from './src/util/AppConstants';
 import AllRepos from './src/screens/home/AllRepos';
 import MyBookmarked from './src/screens/home/MyBookmarked';
 import RepoDetailsScreen from './src/screens/repo/RepoDetailsScreen';
+import UserImageAndLocationScreen from './src/screens/user/UserImageAndLocationScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const App = () => {
@@ -82,6 +83,10 @@ const App = () => {
                   <Stack.Screen
                     name="RepoDetails"
                     component={RepoDetailsScreen}
+                  />
+                  <Stack.Screen
+                    name="UserImageAndLoction"
+                    component={UserImageAndLocationScreen}
                   />
                 </Stack.Navigator>
               </>

@@ -37,9 +37,16 @@ const RepoDetailsScreen = (props) => {
     })();
   });
 
+  const onIssuePress = (item) => {
+    props.navigation.navigate('UserImageAndLoction', {
+      imageUri: item.user.avatar_url,
+      location: item.user.location,
+    });
+  };
+
   const renderItem = ({index, item}) => {
     // console.log('item ===> ', item);
-    return <IssueRowComponent item={item} />;
+    return <IssueRowComponent item={item} onIssuePress={onIssuePress} />;
   };
 
   const keyExtractor = (item, index) => {

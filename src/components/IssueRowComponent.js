@@ -1,15 +1,27 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import Heading2Text from './Heading2Text';
 
 const IssueRowComponent = (props) => {
   return (
     <View style={styles.mainViewStyle}>
       <View style={styles.headingRowStyle}>
-        <Image
-          source={{uri: props.item.user.avatar_url}}
-          style={styles.imageStyle}
-        />
+        <TouchableWithoutFeedback
+          onPress={() => props.onIssuePress(props.item)}>
+          <View>
+            <Image
+              source={{uri: props.item.user.avatar_url}}
+              style={styles.imageStyle}
+            />
+            <Text style={styles.userNameStyle}>{props.item.user.login}</Text>
+          </View>
+        </TouchableWithoutFeedback>
         <Heading2Text style={styles.titleTextStyle}>
           {props.item.title}
         </Heading2Text>
@@ -23,6 +35,7 @@ const styles = StyleSheet.create({
   headingRowStyle: {
     flexDirection: 'row',
   },
+  userNameStyle: {marginTop: 5, textAlign: 'center'},
   imageStyle: {width: 60, height: 60},
   titleTextStyle: {textAlign: 'center', marginLeft: 5},
   bodyStyle: {marginTop: 10},
