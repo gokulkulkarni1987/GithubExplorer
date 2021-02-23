@@ -10,7 +10,7 @@ export function* searchRepoSaga(action) {
     SEARCH_REPO + `?q=${searchQuery}&page=${page}&per_page=${pageSize}`,
   );
   if (repoResponse && repoResponse.status === 200) {
-    console.log('repoResponserepoResponse: ', repoResponse);
+    // console.log('repoResponserepoResponse: ', repoResponse);
     repositories.push(...repoResponse.data.items);
     yield put({
       type: SEARCH_REPO_SUCCESS_ACTION,

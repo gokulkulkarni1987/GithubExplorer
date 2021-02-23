@@ -8,7 +8,7 @@ const RepoRowComponent = (props) => {
       <View style={styles.rowStyle}>
         <Heading1Text>{props.item.name}</Heading1Text>
         <Text>{props.item.private ? 'Private' : 'Public'}</Text>
-        <Text>{props.item.owner.login}</Text>
+        <Text>{props.item.description}</Text>
       </View>
     </TouchableOpacity>
   );

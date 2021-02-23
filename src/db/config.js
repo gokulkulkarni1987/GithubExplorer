@@ -20,7 +20,7 @@ var db = SQLite.openDatabase(
 // db.executeSql('drop table github_repos;');
 
 db.executeSql(
-  'CREATE TABLE IF NOT EXISTS github_repos(id INTEGER PRIMARY KEY AUTOINCREMENT, github_id varchar(1000));',
+  'CREATE TABLE IF NOT EXISTS github_repos(id INTEGER PRIMARY KEY AUTOINCREMENT, github_repo_id INTEGER, name varchar(10000), description BLOB, owner varchar(1000));',
   [],
   () => {
     console.log('github table created');
@@ -30,6 +30,7 @@ db.executeSql(
   },
 );
 
+// db.executeSql('drop table users;');
 db.executeSql(
   'CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(1000), password varchar(1000));',
   [],
@@ -43,7 +44,7 @@ db.executeSql(
 
 // db.executeSql('drop table users_repos;');
 db.executeSql(
-  'CREATE TABLE IF NOT EXISTS users_repos(id INTEGER PRIMARY KEY AUTOINCREMENT, user INTEGER, repo INTEGER, ' +
+  'CREATE TABLE IF NOT EXISTS users_repos(id INTEGER PRIMARY KEY AUTOINCREMENT, user INTEGER, repo INTEGER, created_time INTEGER,' +
     'FOREIGN KEY(user) REFERENCES users(id) ' +
     'FOREIGN KEY(repo) REFERENCES github_repos(id));',
   [],

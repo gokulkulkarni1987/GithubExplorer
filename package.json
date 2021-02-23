@@ -24,6 +24,7 @@
     "react-native-screens": "^2.17.1",
     "react-native-search-bar": "^3.5.1",
     "react-native-sqlite-storage": "^5.0.0",
+    "react-native-vector-icons": "^8.0.0",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-saga": "^1.1.3"
