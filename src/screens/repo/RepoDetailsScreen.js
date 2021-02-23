@@ -1,10 +1,9 @@
 import React from 'react';
 import {useEffect} from 'react';
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Heading1Text from '../../components/Heading1Text';
 import Heading2Text from '../../components/Heading2Text';
-import Heading4Text from '../../components/Heading4Text';
 import {BOOKMARK_REPO_ACTION, FETCH_REPO_ISSUES_ACTION} from './RepoActions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {SHARED_PREFERENCE} from '../../util/SharedPreferences';
