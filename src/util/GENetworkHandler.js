@@ -38,7 +38,6 @@ class NetworkHandler {
   };
 
   get = (path, header) => {
-    console.log('inside get: ', path);
     return new Promise((resolve, reject) => {
       let options = {};
       if (header) {
