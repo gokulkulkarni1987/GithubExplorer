@@ -40,7 +40,10 @@ const AllRepos = (props) => {
 
   const onRepoClicked = (item) => {
     props.navigation.navigate('RepoDetails', {
-      repository: item,
+      name: item.name,
+      owner: item.owner.login,
+      id: item.id,
+      description: item.description,
     });
   };
 

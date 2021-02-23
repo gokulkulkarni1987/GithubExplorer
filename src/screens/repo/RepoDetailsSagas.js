@@ -25,12 +25,9 @@ export function* fetchRepoIssues(action) {
 
 export function* bookmarkTheRepo(action) {
   console.log('inside bookmarkTheRepo', action);
-  const repoId = yield call(checkAndInsertRepo, action.payload.repository);
-  const userRepo = yield call(
-    createUserRepoAssociation,
-    action.payload.userId,
-    repoId,
-  );
+  const {id, name, description, owner, userId} = action.payload;
+  const repoId = yield call(checkAndInsertRepo, id, name, description, owner);
+  const userRepo = yield call(createUserRepoAssociation, userId, repoId);
 
   yield put({
     type: BOOKMARK_REPO_SUCCESS_ACTION,
@@ -54,8 +51,8 @@ const createUserRepoAssociation = (userId, repoId) => {
   });
 };
 
-const checkAndInsertRepo = (repo) => {
-  const {id, name, owner, description} = repo;
+const checkAndInsertRepo = (id, name, description, owner) => {
+  // const {id, name, owner, description} = repo;
   const {login} = owner;
   return new Promise((resolve, reject) => {
     db.executeSql(

@@ -10,24 +10,24 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {SHARED_PREFERENCE} from '../../util/SharedPreferences';
 import {SHARED_PREFERENCE_KEYS} from '../../util/AppConstants';
 import {useState} from 'react';
+import IssueRowComponent from '../../components/IssueRowComponent';
 
 const RepoDetailsScreen = (props) => {
   const [userId, setUserId] = useState(0);
   const {route} = props;
   const {params} = route;
-  const {repository} = params;
+  const {id, name, description, owner} = params;
   const dispatch = useDispatch();
   const repoDetailsProp = useSelector(({repoDetails}) => repoDetails);
-  console.log('repositoryrepository: ', repository);
   useEffect(() => {
     dispatch({
       type: FETCH_REPO_ISSUES_ACTION,
       payload: {
-        owner: repository.owner.login,
-        repo: repository.name,
+        owner: owner,
+        repo: name,
       },
     });
-  }, [dispatch, repository.owner.login, repository.name]);
+  }, [dispatch, owner, name]);
 
   useEffect(() => {
     (async () => {
@@ -39,24 +39,12 @@ const RepoDetailsScreen = (props) => {
   });
 
   const renderItem = ({index, item}) => {
-    console.log('item ===> ', item);
-    return (
-      <View style={styles.rowStyle}>
-        <View
-          style={{
-            flexDirection: 'row',
-          }}>
-          <Image
-            source={{uri: item.user.avatar_url}}
-            style={{width: 60, height: 60}}
-          />
-          <Heading2Text style={{textAlign: 'center', marginLeft: 5}}>
-            {item.title}
-          </Heading2Text>
-        </View>
-        <Text style={{marginTop: 10}}>{item.body}</Text>
-      </View>
-    );
+    // console.log('item ===> ', item);
+    return <IssueRowComponent item={item} />;
+  };
+
+  const keyExtractor = (item, index) => {
+    return item.id + '_' + index;
   };
 
   const onBookmarkPressed = () => {
@@ -64,7 +52,10 @@ const RepoDetailsScreen = (props) => {
       type: BOOKMARK_REPO_ACTION,
       payload: {
         userId,
-        repository,
+        id,
+        name,
+        description,
+        owner,
       },
     });
   };
@@ -73,7 +64,7 @@ const RepoDetailsScreen = (props) => {
     <View style={styles.parentStyle}>
       <View style={styles.mainView}>
         <View style={styles.topViewStyle}>
-          <Heading1Text>{repository.name}</Heading1Text>
+          <Heading1Text>{name}</Heading1Text>
           <Icon
             name="star"
             size={30}
@@ -88,6 +79,7 @@ const RepoDetailsScreen = (props) => {
           ItemSeparatorComponent={() => (
             <View style={styles.flatlistItemSeparatorStyle} />
           )}
+          keyExtractor={keyExtractor}
         />
       </View>
     </View>
@@ -109,16 +101,6 @@ const styles = StyleSheet.create({
   },
   ownerStyle: {marginTop: 10},
   flatlistItemSeparatorStyle: {margin: 5},
-  rowStyle: {
-    padding: 10,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-    borderRadius: 5,
-  },
 });
 
 export default RepoDetailsScreen;
