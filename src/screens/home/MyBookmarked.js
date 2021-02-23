@@ -2,7 +2,7 @@ import React from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import {useRef} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import SearchBar from 'react-native-search-bar';
 import {useDispatch, useSelector} from 'react-redux';
 import RepoRowComponent from '../../components/RepoRowComponent';
@@ -64,11 +64,20 @@ const MyBookmarked = (props) => {
     return item.id + '_' + index;
   };
 
+  const onRefresh = () => {
+    dispatch({
+      type: FETCH_BOOKMARKED_REPO_ACTION,
+      payload: {
+        userId,
+      },
+    });
+  };
+
   return (
     <View style={styles.parentStyle}>
       <SearchBar
         ref={searchRef}
-        placeholder="Search All Repos"
+        placeholder="Search My repos"
         onChangeText={onSearchTextChange}
         onSearchButtonPress={onSearchButtonPress}
         onCancelButtonPress={onCancelButtonPress}
@@ -82,6 +91,12 @@ const MyBookmarked = (props) => {
         ItemSeparatorComponent={() => (
           <View style={styles.flatlistItemSeparatorStyle} />
         )}
+        refreshControl={
+          <RefreshControl
+            refreshing={bookmarkedReposProp.fetchingInProgress}
+            onRefresh={onRefresh}
+          />
+        }
         style={styles.flatlistStyle}
       />
     </View>
