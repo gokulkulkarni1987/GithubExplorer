@@ -4,7 +4,6 @@ import {
   Linking,
   Platform,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -16,7 +15,7 @@ const UserImageAndLocationScreen = (props) => {
   const {imageUri, location} = params;
 
   const url = Platform.select({
-    ios: 'maps://app?daddr=Bangalore, India',
+    ios: 'maps:?q=Bangalore, India',
     android: 'google.navigation:q=Bangalore, India',
   });
 
@@ -31,12 +30,13 @@ const UserImageAndLocationScreen = (props) => {
         resizeMode={'contain'}
         style={styles.imageViewStyle}
       />
-      {location ? <Text>{location}</Text> : null}
-      <TouchableWithoutFeedback onPress={onLocationClicked}>
-        <View style={styles.locationTextStyle}>
-          <Heading2Text>Bangalore, India</Heading2Text>
-        </View>
-      </TouchableWithoutFeedback>
+      {location ? (
+        <TouchableWithoutFeedback onPress={onLocationClicked}>
+          <View style={styles.locationTextStyle}>
+            <Heading2Text>{location}</Heading2Text>
+          </View>
+        </TouchableWithoutFeedback>
+      ) : null}
     </View>
   );
 };
