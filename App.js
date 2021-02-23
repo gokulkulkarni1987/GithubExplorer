@@ -10,6 +10,7 @@ import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {SafeAreaView, StyleSheet, View, StatusBar} from 'react-native';
 import {Provider} from 'react-redux';
 
@@ -20,7 +21,10 @@ import RegisterScreen from './src/screens/auth/RegisterScreen';
 import './src/db/config';
 import {SHARED_PREFERENCE} from './src/util/SharedPreferences';
 import {SHARED_PREFERENCE_KEYS} from './src/util/AppConstants';
+import AllRepos from './src/screens/home/AllRepos';
+import MyBookmarked from './src/screens/home/MyBookmarked';
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 const App = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
@@ -51,6 +55,13 @@ const App = () => {
       }
     });
 
+  const getHome = () => (
+    <Tab.Navigator>
+      <Tab.Screen name="All" component={AllRepos} />
+      <Tab.Screen name="Bookmarked" component={MyBookmarked} />
+    </Tab.Navigator>
+  );
+
   const storeDetails = initRedux();
   storeDetails.store.subscribe(listener);
   return (
@@ -62,8 +73,11 @@ const App = () => {
           <NavigationContainer>
             {isSignedIn ? (
               <>
-                <Stack.Navigator>
+                {/* <Stack.Navigator>
                   <Stack.Screen name="Home" component={HomeScreen} />
+                </Stack.Navigator> */}
+                <Stack.Navigator>
+                  <Stack.Screen name="Home" component={getHome} />
                 </Stack.Navigator>
               </>
             ) : (
