@@ -8,7 +8,6 @@ import {
 } from './RepoActions';
 
 export function* fetchRepoIssues(action) {
-  console.log('inside fetchRepoIssues', action);
   const {repo, owner} = action.payload;
   const repoIssuesReponse = yield call(
     GENetworkHandler.get,
@@ -52,8 +51,6 @@ const createUserRepoAssociation = (userId, repoId) => {
 };
 
 const checkAndInsertRepo = (id, name, description, owner) => {
-  // const {id, name, owner, description} = repo;
-  const {login} = owner;
   return new Promise((resolve, reject) => {
     db.executeSql(
       `select * from github_repos where id='${id}';`,
@@ -62,7 +59,7 @@ const checkAndInsertRepo = (id, name, description, owner) => {
         let resultsLen = tx.rows.length;
         if (resultsLen === 0) {
           db.executeSql(
-            `insert into github_repos(github_repo_id, name, description, owner) values(${id}, '${name}', '${description}', '${login}')`,
+            `insert into github_repos(github_repo_id, name, description, owner) values(${id}, '${name}', '${description}', '${owner}')`,
             [],
             (arg) => {
               resolve(arg.insertId);
