@@ -52,6 +52,7 @@ const MyBookmarked = (props) => {
       name: item.name,
       owner: item.owner,
       id: item.id,
+      repoId: item.github_repo_id,
       description: item.description,
     });
   };

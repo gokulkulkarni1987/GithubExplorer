@@ -42,7 +42,7 @@ const AllRepos = (props) => {
     props.navigation.navigate('RepoDetails', {
       name: item.name,
       owner: item.owner.login,
-      id: item.id,
+      repoId: item.id,
       description: item.description,
     });
   };

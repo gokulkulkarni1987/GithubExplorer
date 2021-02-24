@@ -4,7 +4,11 @@ import {FlatList, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Heading1Text from '../../components/Heading1Text';
 import Heading2Text from '../../components/Heading2Text';
-import {BOOKMARK_REPO_ACTION, FETCH_REPO_ISSUES_ACTION} from './RepoActions';
+import {
+  BOOKMARK_REPO_ACTION,
+  FETCH_REPO_ISSUES_ACTION,
+  CHECK_USER_BOOKMARK_ACTION,
+} from './RepoActions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {SHARED_PREFERENCE} from '../../util/SharedPreferences';
 import {SHARED_PREFERENCE_KEYS} from '../../util/AppConstants';
@@ -15,7 +19,8 @@ const RepoDetailsScreen = (props) => {
   const [userId, setUserId] = useState(0);
   const {route} = props;
   const {params} = route;
-  const {id, name, description, owner} = params;
+  const {repoId, id, name, description, owner} = params;
+  console.log('============> ', params);
   const dispatch = useDispatch();
   const repoDetailsProp = useSelector(({repoDetails}) => repoDetails);
   useEffect(() => {
@@ -34,8 +39,15 @@ const RepoDetailsScreen = (props) => {
         SHARED_PREFERENCE_KEYS.USER_ID,
       );
       setUserId(userIdVal);
+      dispatch({
+        type: CHECK_USER_BOOKMARK_ACTION,
+        payload: {
+          userId: userIdVal,
+          repoId: repoId,
+        },
+      });
     })();
-  });
+  }, [dispatch, repoId]);
 
   const onIssuePress = (item) => {
     props.navigation.navigate('UserImageAndLoction', {
@@ -58,7 +70,7 @@ const RepoDetailsScreen = (props) => {
       type: BOOKMARK_REPO_ACTION,
       payload: {
         userId,
-        id,
+        repoId,
         name,
         description,
         owner,
@@ -66,17 +78,26 @@ const RepoDetailsScreen = (props) => {
     });
   };
 
+  console.log(
+    'repoDetailsProp.isRepoBookmarked: ',
+    repoDetailsProp.isRepoBookmarked,
+  );
+
   return (
     <View style={styles.parentStyle}>
       <View style={styles.mainView}>
         <View style={styles.topViewStyle}>
           <Heading1Text>{name}</Heading1Text>
-          <Icon
-            name="star"
-            size={30}
-            color="#900"
-            onPress={onBookmarkPressed}
-          />
+          {repoDetailsProp.isRepoBookmarked ? (
+            <Icon name="star" size={30} color="#FFAD35" />
+          ) : (
+            <Icon
+              name="star-o"
+              size={30}
+              color="#FFAD35"
+              onPress={onBookmarkPressed}
+            />
+          )}
         </View>
         <Heading2Text style={styles.ownerStyle}>Issues</Heading2Text>
         <FlatList
