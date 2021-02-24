@@ -43,7 +43,7 @@ export function* fetchBookmarkedRepos(action) {
 const fetchBookmarkedReposFromDB = (userId) => {
   return new Promise((resolve, reject) => {
     db.executeSql(
-      'select gr.* from users_repos ur, users u, github_repos gr where u.id = ur.user and gr.id=ur.repo and ur.user=?;',
+      'select gr.* from users_repos ur, users u, github_repos gr where u.id = ur.user and gr.id=ur.repo and ur.user=? order by ur.created_time DESC;',
       [userId],
       (tx, results) => {
         console.log('transactions: ', tx);
