@@ -13,6 +13,7 @@ const AllRepos = (props) => {
     ({allRepositories}) => allRepositories,
   );
   const [searchQuery, setSearchQuery] = useState('');
+  let currentPage = 1;
   const searchRef = useRef(null);
   const dispatch = useDispatch();
   const onSearchTextChange = (newSearchText) => {
@@ -26,9 +27,9 @@ const AllRepos = (props) => {
       type: SEARCH_REPO_ACTION,
       payload: {
         searchQuery,
-        page: 1,
+        page: currentPage,
         pageSize: 10,
-        repositories: allRepositoriesProp.repositories,
+        repositories: [],
       },
     });
   };
@@ -44,6 +45,19 @@ const AllRepos = (props) => {
       owner: item.owner.login,
       repoId: item.id,
       description: item.description,
+    });
+  };
+
+  const loadMoreData = () => {
+    console.log('called: ');
+    dispatch({
+      type: SEARCH_REPO_ACTION,
+      payload: {
+        searchQuery,
+        page: ++currentPage,
+        pageSize: 10,
+        repositories: allRepositoriesProp.repositories,
+      },
     });
   };
 
@@ -65,7 +79,8 @@ const AllRepos = (props) => {
         onCancelButtonPress={onCancelButtonPress}
         textColor={'black'}
       />
-      {allRepositoriesProp.repositories.length === 0 ? (
+      {allRepositoriesProp.repositories.length === 0 &&
+      allRepositoriesProp.searchInProgress ? (
         <LottieView
           source={require('../../res/lottie/9825-loading-screen-loader-spinning-circle.json')}
           autoPlay
@@ -82,6 +97,8 @@ const AllRepos = (props) => {
           <View style={styles.flatlistItemSeparatorStyle} />
         )}
         style={styles.flatlistStyle}
+        onEndReached={loadMoreData}
+        onEndReachedThreshold={0.5}
       />
     </View>
   );
