@@ -22,9 +22,9 @@ export function* loginSaga(action) {
       SHARED_PREFERENCE_KEYS.USER_NAME,
       userDetails.name,
     );
-    put({type: LOGIN_ACTION_SUCCESS});
+    yield put({type: LOGIN_ACTION_SUCCESS});
   } catch (e) {
-    put({type: LOGIN_ACTION_FAIL});
+    yield put({type: LOGIN_ACTION_FAIL});
   }
 }
 

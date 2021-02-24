@@ -27,7 +27,10 @@ class SharedPreferences {
 
   async removeAll() {
     try {
-      const keys = [SHARED_PREFERENCE_KEYS.USER_ID];
+      const keys = [
+        SHARED_PREFERENCE_KEYS.USER_ID,
+        SHARED_PREFERENCE_KEYS.USER_NAME,
+      ];
       await AsyncStorage.multiRemove(keys);
     } catch (error) {
       console.log('Unable to save in preferences: ', error);

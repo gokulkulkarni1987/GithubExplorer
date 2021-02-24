@@ -7,15 +7,14 @@
  */
 
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {SafeAreaView, StyleSheet, View, StatusBar} from 'react-native';
+import {SafeAreaView, StyleSheet, View, StatusBar, Alert} from 'react-native';
 import {Provider} from 'react-redux';
 
 import initRedux from './src/redux/initRedux';
-import HomeScreen from './src/screens/home/HomeScreen';
 import LoginScreen from './src/screens/auth/LoginScreen';
 import RegisterScreen from './src/screens/auth/RegisterScreen';
 import './src/db/config';
@@ -25,13 +24,17 @@ import AllRepos from './src/screens/home/AllRepos';
 import MyBookmarked from './src/screens/home/MyBookmarked';
 import RepoDetailsScreen from './src/screens/repo/RepoDetailsScreen';
 import UserImageAndLocationScreen from './src/screens/user/UserImageAndLocationScreen';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const App = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
-  const listener = () => {
+  const listener = (action) => {
+    console.log('storeDetails action: ', action);
     const {register, login} = storeDetails.store.getState();
+    console.log('storeDetails action: ', action);
     console.log('storeDetails.store', storeDetails.store.getState());
     if (
       (register &&
@@ -57,6 +60,22 @@ const App = () => {
       }
     });
 
+  const logoutUser = async () => {
+    Alert.alert('Logout!!!', 'Are you sure, you want to logout?', [
+      {
+        text: 'NO',
+        style: 'cancel',
+      },
+      {
+        text: 'YES',
+        onPress: async () => {
+          await SHARED_PREFERENCE.accessor.removeAll();
+          setIsSignedIn(false);
+        },
+      },
+    ]);
+  };
+
   const getHome = () => (
     <Tab.Navigator>
       <Tab.Screen name="All" component={AllRepos} />
@@ -75,11 +94,25 @@ const App = () => {
           <NavigationContainer>
             {isSignedIn ? (
               <>
-                {/* <Stack.Navigator>
-                  <Stack.Screen name="Home" component={HomeScreen} />
-                </Stack.Navigator> */}
                 <Stack.Navigator>
-                  <Stack.Screen name="Home" component={getHome} />
+                  <Stack.Screen
+                    options={{
+                      headerTitle: 'Home',
+                      headerRight: () => (
+                        <Icon
+                          name="power-off"
+                          size={24}
+                          color="#900"
+                          style={styles.logoutIconStyle}
+                          onPress={() => {
+                            logoutUser();
+                          }}
+                        />
+                      ),
+                    }}
+                    name="Home"
+                    component={getHome}
+                  />
                   <Stack.Screen
                     name="RepoDetails"
                     component={RepoDetailsScreen}
@@ -105,6 +138,9 @@ const App = () => {
 
 const styles = StyleSheet.create({
   mainParentStyle: {flex: 1, justifyContent: 'center', alignItems: 'stretch'},
+  logoutIconStyle: {
+    padding: 10,
+  },
 });
 
 export default App;
