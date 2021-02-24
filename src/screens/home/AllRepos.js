@@ -1,5 +1,5 @@
 import React from 'react';
-import {useEffect} from 'react';
+import LottieView from 'lottie-react-native';
 import {useState} from 'react';
 import {useRef} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
@@ -65,6 +65,14 @@ const AllRepos = (props) => {
         onCancelButtonPress={onCancelButtonPress}
         textColor={'black'}
       />
+      {allRepositoriesProp.repositories.length === 0 ? (
+        <LottieView
+          source={require('../../res/lottie/9825-loading-screen-loader-spinning-circle.json')}
+          autoPlay
+          loop
+          style={styles.lottieStyle}
+        />
+      ) : null}
 
       <FlatList
         data={allRepositoriesProp.repositories}
@@ -80,9 +88,10 @@ const AllRepos = (props) => {
 };
 
 const styles = StyleSheet.create({
-  parentStyle: {flex: 1, margin: 5},
+  parentStyle: {flex: 1, margin: 5, alignItems: 'stretch'},
   flatlistStyle: {marginTop: 10},
   flatlistItemSeparatorStyle: {margin: 5},
+  lottieStyle: {width: 100, height: 100, alignSelf: 'center'},
 });
 
 export default AllRepos;
