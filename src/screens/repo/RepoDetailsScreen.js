@@ -15,6 +15,7 @@ import {SHARED_PREFERENCE} from '../../util/SharedPreferences';
 import {SHARED_PREFERENCE_KEYS} from '../../util/AppConstants';
 import {useState} from 'react';
 import IssueRowComponent from '../../components/IssueRowComponent';
+import ButtonComponent from '../../components/ButtonComponent';
 
 const RepoDetailsScreen = (props) => {
   const [userId, setUserId] = useState(0);
@@ -79,10 +80,12 @@ const RepoDetailsScreen = (props) => {
     });
   };
 
-  console.log(
-    'repoDetailsProp.isRepoBookmarked: ',
-    repoDetailsProp.isRepoBookmarked,
-  );
+  const onCreateIssueClicked = () => {
+    props.navigation.navigate('CreateIssue', {
+      owner,
+      repo: name,
+    });
+  };
 
   return (
     <View style={styles.parentStyle}>
@@ -118,6 +121,11 @@ const RepoDetailsScreen = (props) => {
           )}
           keyExtractor={keyExtractor}
         />
+        <ButtonComponent
+          title="Create Issue"
+          buttonStyle={styles.createIssueButtnStyle}
+          onPress={onCreateIssueClicked}
+        />
       </View>
     </View>
   );
@@ -129,6 +137,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
   },
+  createIssueButtnStyle: {marginTop: 10},
   topViewStyle: {
     flexDirection: 'row',
     justifyContent: 'space-between',

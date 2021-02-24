@@ -16,6 +16,8 @@ import {
   checkIfRepoIsBookmarked,
   fetchRepoIssues,
 } from '../screens/repo/RepoDetailsSagas';
+import {CREATE_ISSUE_ACTION} from '../screens/issue/IssueActions';
+import {createIssue} from '../screens/issue/IssueSagas';
 
 export default function* sagas() {
   yield takeLatest(LOGIN_ACTION, loginSaga);
@@ -25,4 +27,5 @@ export default function* sagas() {
   yield takeLatest(BOOKMARK_REPO_ACTION, bookmarkTheRepo);
   yield takeLatest(FETCH_BOOKMARKED_REPO_ACTION, fetchBookmarkedRepos);
   yield takeLatest(CHECK_USER_BOOKMARK_ACTION, checkIfRepoIsBookmarked);
+  yield takeLatest(CREATE_ISSUE_ACTION, createIssue);
 }

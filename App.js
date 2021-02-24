@@ -25,6 +25,7 @@ import MyBookmarked from './src/screens/home/MyBookmarked';
 import RepoDetailsScreen from './src/screens/repo/RepoDetailsScreen';
 import UserImageAndLocationScreen from './src/screens/user/UserImageAndLocationScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import CreateIssueScreen from './src/screens/issue/CreateIssueScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -126,6 +127,13 @@ const App = () => {
                     }}
                     name="UserImageAndLoction"
                     component={UserImageAndLocationScreen}
+                  />
+                  <Stack.Screen
+                    options={{
+                      headerTitle: 'User Details',
+                    }}
+                    name="CreateIssue"
+                    component={CreateIssueScreen}
                   />
                 </Stack.Navigator>
               </>

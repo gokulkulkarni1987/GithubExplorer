@@ -9,6 +9,8 @@ const InputComponent = (props) => {
       value={props.value}
       placeholder={props.placeholder}
       secureTextEntry={props.secureTextEntry}
+      multiline={props.multiline}
+      numberOfLines={props.numberOfLines}
     />
   );
 };
