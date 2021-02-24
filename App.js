@@ -114,10 +114,16 @@ const App = () => {
                     component={getHome}
                   />
                   <Stack.Screen
+                    options={{
+                      headerTitle: 'Repo Details',
+                    }}
                     name="RepoDetails"
                     component={RepoDetailsScreen}
                   />
                   <Stack.Screen
+                    options={{
+                      headerTitle: 'User Details',
+                    }}
                     name="UserImageAndLoction"
                     component={UserImageAndLocationScreen}
                   />
