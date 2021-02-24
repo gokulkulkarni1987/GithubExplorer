@@ -12,6 +12,7 @@ import {FETCH_BOOKMARKED_REPO_ACTION} from './HomeActions';
 
 const MyBookmarked = (props) => {
   const [userId, setUserId] = useState(0);
+  const [bookmarkedReposArray, setBookmarkedRepos] = useState([]);
   const bookmarkedReposProp = useSelector(
     ({bookmarkedRepos}) => bookmarkedRepos,
   );
@@ -25,7 +26,32 @@ const MyBookmarked = (props) => {
     if (searchRef) {
       searchRef.current.blur();
     }
+    if (searchQuery !== '') {
+      console.log('inside if');
+      const filteredArray = bookmarkedReposArray.filter(
+        (bookmarkedRepo) =>
+          bookmarkedRepo.name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
+          bookmarkedRepo.description
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()),
+      );
+      setBookmarkedRepos(filteredArray);
+    } else {
+      console.log('inside else');
+      dispatch({
+        type: FETCH_BOOKMARKED_REPO_ACTION,
+        payload: {
+          userId,
+        },
+      });
+    }
   };
+
+  useEffect(() => {
+    setBookmarkedRepos(bookmarkedReposProp.repositories.slice());
+  }, [bookmarkedReposProp.repositories]);
 
   useEffect(() => {
     (async () => {
@@ -86,7 +112,7 @@ const MyBookmarked = (props) => {
       />
 
       <FlatList
-        data={bookmarkedReposProp.repositories}
+        data={bookmarkedReposArray}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         ItemSeparatorComponent={() => (
