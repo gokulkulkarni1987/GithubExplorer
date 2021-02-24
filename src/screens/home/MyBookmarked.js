@@ -27,7 +27,6 @@ const MyBookmarked = (props) => {
       searchRef.current.blur();
     }
     if (searchQuery !== '') {
-      console.log('inside if');
       const filteredArray = bookmarkedReposArray.filter(
         (bookmarkedRepo) =>
           bookmarkedRepo.name
@@ -39,7 +38,6 @@ const MyBookmarked = (props) => {
       );
       setBookmarkedRepos(filteredArray);
     } else {
-      console.log('inside else');
       dispatch({
         type: FETCH_BOOKMARKED_REPO_ACTION,
         payload: {

@@ -22,7 +22,6 @@ const RepoDetailsScreen = (props) => {
   const {route} = props;
   const {params} = route;
   const {repoId, id, name, description, owner} = params;
-  console.log('============> ', params);
   const dispatch = useDispatch();
   const repoDetailsProp = useSelector(({repoDetails}) => repoDetails);
   useEffect(() => {
@@ -59,7 +58,6 @@ const RepoDetailsScreen = (props) => {
   };
 
   const renderItem = ({index, item}) => {
-    // console.log('item ===> ', item);
     return <IssueRowComponent item={item} onIssuePress={onIssuePress} />;
   };
 

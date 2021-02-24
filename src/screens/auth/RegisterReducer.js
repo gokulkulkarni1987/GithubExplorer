@@ -11,7 +11,6 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-  console.log('actions: ', action);
   switch (action.type) {
     case REGISTER_ACTION:
       state = {

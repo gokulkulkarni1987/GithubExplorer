@@ -33,10 +33,7 @@ const App = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   const listener = (action) => {
-    console.log('storeDetails action: ', action);
     const {register, login} = storeDetails.store.getState();
-    console.log('storeDetails action: ', action);
-    console.log('storeDetails.store', storeDetails.store.getState());
     if (
       (register &&
         !register.registrationFail &&

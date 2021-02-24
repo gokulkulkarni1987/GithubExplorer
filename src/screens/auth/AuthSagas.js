@@ -13,7 +13,6 @@ export function* loginSaga(action) {
   const {username, password} = action.payload;
   try {
     const userDetails = yield getfromDB(username, password);
-    console.log('userDetailsuserDetailsuserDetails', userDetails);
     SHARED_PREFERENCE.accessor.put(
       SHARED_PREFERENCE_KEYS.USER_ID,
       userDetails.id.toString(),
@@ -30,10 +29,8 @@ export function* loginSaga(action) {
 
 export function* registerSaga(action) {
   const {username, password} = action.payload;
-  console.log('values:', username, ' ', password);
   try {
     const valuesReceived = yield insertIntoDB(username, password);
-    console.log('valuesReceivedvaluesReceived: ', valuesReceived);
     SHARED_PREFERENCE.accessor.put(
       SHARED_PREFERENCE_KEYS.USER_ID,
       valuesReceived.insertId.toString(),
@@ -41,7 +38,6 @@ export function* registerSaga(action) {
     SHARED_PREFERENCE.accessor.put(SHARED_PREFERENCE_KEYS.USER_NAME, username);
     yield put({type: REGISTER_SUCCESS_ACTION});
   } catch (e) {
-    console.log('unable to insert user: ', e);
     yield put({type: REGISTER_FAIL_ACTION});
   }
 }
@@ -67,14 +63,10 @@ const getfromDB = (username, password) => {
       `select * from users where name='${username}' and password='${password}';`,
       [],
       (tx, results) => {
-        console.log('tx: ', tx);
         let resultsLen = tx.rows.length;
         if (resultsLen !== 1) {
           reject();
         } else {
-          for (let i = 0; i < resultsLen; i++) {
-            console.log(tx.rows.item(i));
-          }
           resolve(tx.rows.item(0));
         }
       },

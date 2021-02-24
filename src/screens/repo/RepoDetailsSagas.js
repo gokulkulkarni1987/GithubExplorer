@@ -54,7 +54,6 @@ const checkIfUserHasBookmarkedRepo = (userId, repoId) => {
 };
 
 export function* bookmarkTheRepo(action) {
-  console.log('inside bookmarkTheRepo', action);
   const {repoId, name, description, owner, userId} = action.payload;
   const newRepoId = yield call(
     checkAndInsertRepo,

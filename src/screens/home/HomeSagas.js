@@ -15,7 +15,6 @@ export function* searchRepoSaga(action) {
     SEARCH_REPO + `?q=${searchQuery}&page=${page}&per_page=${pageSize}`,
   );
   if (repoResponse && repoResponse.status === 200) {
-    // console.log('repoResponserepoResponse: ', repoResponse);
     repositories.push(...repoResponse.data.items);
     yield put({
       type: SEARCH_REPO_SUCCESS_ACTION,
@@ -26,7 +25,6 @@ export function* searchRepoSaga(action) {
 
 export function* fetchBookmarkedRepos(action) {
   const {userId} = action.payload;
-  console.log('fetchBookmarkedRepos: ', action);
   try {
     const bookmarkedReponse = yield call(fetchBookmarkedReposFromDB, userId);
     yield put({
@@ -46,13 +44,11 @@ const fetchBookmarkedReposFromDB = (userId) => {
       'select gr.* from users_repos ur, users u, github_repos gr where u.id = ur.user and gr.id=ur.repo and ur.user=? order by ur.created_time DESC;',
       [userId],
       (tx, results) => {
-        console.log('transactions: ', tx);
         let resultsLen = tx.rows.length;
         const githubRepos = [];
         for (let i = 0; i < resultsLen; i++) {
           githubRepos.push(tx.rows.item(i));
         }
-        console.log('githubReposgithubRepos: ', githubRepos);
         resolve(githubRepos);
       },
       (e) => {

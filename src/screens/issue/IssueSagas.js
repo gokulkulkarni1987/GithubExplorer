@@ -9,11 +9,6 @@ import {
 export function* createIssue(action) {
   const {name, owner, title, body} = action.payload;
   try {
-    console.log('action.payload:  ', action.payload);
-    console.log(
-      '${REPOS}/${owner}/${name}${ISSUES}',
-      `${REPOS}/${owner}/${name}${ISSUES}`,
-    );
     const createIssueReponse = yield call(
       GENetworkHandler.post,
       `${REPOS}/${owner}/${name}${ISSUES}`,
