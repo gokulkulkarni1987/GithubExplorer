@@ -1,5 +1,6 @@
 import React from 'react';
 import {useEffect} from 'react';
+import LottieView from 'lottie-react-native';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Heading1Text from '../../components/Heading1Text';
@@ -100,6 +101,15 @@ const RepoDetailsScreen = (props) => {
           )}
         </View>
         <Heading2Text style={styles.ownerStyle}>Issues</Heading2Text>
+        {repoDetailsProp.repoIssues.length === 0 &&
+        repoDetailsProp.fetchingIssues ? (
+          <LottieView
+            source={require('../../res/lottie/9825-loading-screen-loader-spinning-circle.json')}
+            autoPlay
+            loop
+            style={styles.lottieStyle}
+          />
+        ) : null}
         <FlatList
           data={repoDetailsProp.repoIssues}
           renderItem={renderItem}
@@ -128,6 +138,7 @@ const styles = StyleSheet.create({
   },
   ownerStyle: {marginTop: 10},
   flatlistItemSeparatorStyle: {margin: 5},
+  lottieStyle: {width: 100, height: 100, alignSelf: 'center'},
 });
 
 export default RepoDetailsScreen;
